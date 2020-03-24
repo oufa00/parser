@@ -1,46 +1,81 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package parser;
-
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Arrays;
 
-/**
- *
- * @author dell
- */
-public class Parser {
+public class main {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        String filename="C:\\Users\\dell\\Downloads\\Compressed\\access.log.2017-01-05\\Nouveau document texte.txt";
-try{
-        InputStream flux=new FileInputStream(filename); 
-InputStreamReader lecture=new InputStreamReader(flux);
-BufferedReader buff=new BufferedReader(lecture);
-String ligne;
-int v=0;
-String[] lig;
-int k=0;
-int[][] train=new int[5][10];
+	final static String filename = "C:\\Users\\user_pc\\Downloads\\test.txt";
+	final static String chemin = "C:\\Users\\user_pc\\Downloads\\DataSet.txt";
+	public final static String[] caracter = { "!", "#", "$", "%", "^", "&", "*", "_", "-", "+", "=" };
 
-while ((ligne=buff.readLine())!=null){
-k++;
-   if(ligne.contains("/robots.txt")){
-   System.out.println("ligne = "+k);
-   }
-   
-    }
-buff.close(); 
-    }catch(Exception e){
-      //  System.out.println(e);
-    }    }
-    
+	public static int NbrCarSpec(String ligne) {
+		int cpt = 0;
+		for (int i = 0; i < caracter.length; i++)
+			cpt += occurence(ligne, caracter[i]);
+
+		return cpt;
+	}
+
+	public static int occurence(String ligne, String c) {
+		return ligne.length() - ligne.replace(c, "").length();
+	}
+
+	public static void main(String[] args) {
+
+		BufferedReader reader = null;
+		String ligne;
+
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+			File fichier = new File(chemin);
+			fichier.createNewFile();
+			FileWriter writer = new FileWriter(fichier);
+			while ((ligne = reader.readLine()) != null) {
+				String[] vecteur = new String[] { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", };
+
+				if (ligne.contains("/robots.txt"))
+					vecteur[0] = "1";
+
+				if (ligne.contains("/bingbot"))
+					vecteur[1] = "1";
+
+				if (ligne.contains("Nikto") || ligne.contains("Nessus") || ligne.contains("acunetix"))
+					vecteur[2] = "1";
+
+				if (ligne.contains("/wp-admin.php") || ligne.contains("/wp-login.php")
+						|| ligne.contains("/Administrateur.php"))
+					vecteur[3] = "1";
+
+				if (ligne.contains(".htaccess") || ligne.contains("/config.default.php"))
+					vecteur[4] = "1";
+
+				if (ligne.contains("cmd") || ligne.contains("ls") || ligne.contains("ipconfig"))
+					vecteur[5] = "1";
+
+				if (ligne.contains("c99.php") || ligne.contains("AniShell.php") || ligne.contains("Backdoor.php"))
+					vecteur[6] = "1";
+
+				vecteur[7] = String.valueOf(NbrCarSpec(ligne));
+
+				String[] parts = ligne.split("]");
+				if (parts[1].contains("GET"))
+					vecteur[8] = "GET";
+				if (parts[1].contains("POST"))
+					vecteur[8] = "POST";
+				if (parts[1].contains("HEAD"))
+					vecteur[8] = "HEAD";
+
+				String[] partsVerHttp = parts[1].split("HTTP/");
+				vecteur[9] = partsVerHttp[1].substring(0, 3);
+
+				writer.write(Arrays.toString(vecteur) + "\n");
+			}
+			writer.close();
+			reader.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }
