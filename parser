@@ -2,12 +2,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class main {
 
-	final static String filename = "C:\\Users\\user_pc\\Downloads\\test.txt";
-	final static String chemin = "C:\\Users\\user_pc\\Downloads\\DataSet.txt";
+	final static String filename = "C:\\Users\\dell\\Desktop\\travaille\\test.txt";
+	final static String chemin = "C:\\Users\\dell\\Desktop\\travaille\\DataSet.txt";
 	public final static String[] caracter = { "!", "#", "$", "%", "^", "&", "*", "_", "-", "+", "=" };
 
 	public static int NbrCarSpec(String ligne) {
@@ -21,13 +22,28 @@ public class main {
 	public static int occurence(String ligne, String c) {
 		return ligne.length() - ligne.replace(c, "").length();
 	}
+         public static boolean exist(String ligne,ArrayList<String> compare) {
 
+		for (int i = 0; i < compare.size(); i++){
+
+                if(ligne.contains(compare.get(i)))
+		return true;
+                }
+                return false;
+	}
 	public static void main(String[] args) {
 
 		BufferedReader reader = null;
 		String ligne;
+                ArrayList<String> fich_sensible=new ArrayList<String>(Arrays.asList("wp-admin", "wp-content", "wp-login", "Administrator"));
+                ArrayList<String> cmd=new ArrayList<String>(Arrays.asList("ipconfig", "ls", "ping", "cd","mkdir","touch" ));
+                ArrayList<String> backdoor=new ArrayList<String>(Arrays.asList("c99.php", "Backdoor.PHP.Agent.php", "Ani-Shell.php","404.php"));
+                ArrayList<String> carcHex=new ArrayList<String>(Arrays.asList("%20", "%21", "%22", "%23","%24","%25","%26","%27" ));
+                ArrayList<String> rep_sensible=new ArrayList<String>(Arrays.asList( ".htaccess", "configuration.php", "config.default.php"));
+                ArrayList<String> presence_bot=new ArrayList<String>(Arrays.asList( "Googlebot", "AskJeeves", "Digger","Lycos","msnbot","Inktomi Slurp","bingbot"));
+                ArrayList<String> Scanner_bot=new ArrayList<String>(Arrays.asList( "Nikto", "Nessus", "acunetix"));
 
-		try {
+                try {
 			reader = new BufferedReader(new FileReader(filename));
 			File fichier = new File(chemin);
 			fichier.createNewFile();
@@ -38,23 +54,22 @@ public class main {
 				if (ligne.contains("/robots.txt"))
 					vecteur[0] = "1";
 
-				if (ligne.contains("/bingbot"))
+				if (exist(ligne,presence_bot))
 					vecteur[1] = "1";
 
-				if (ligne.contains("Nikto") || ligne.contains("Nessus") || ligne.contains("acunetix"))
+				if (exist(ligne,Scanner_bot))
 					vecteur[2] = "1";
 
-				if (ligne.contains("/wp-admin.php") || ligne.contains("/wp-login.php")
-						|| ligne.contains("/Administrateur.php"))
-					vecteur[3] = "1";
+				if (exist(ligne,fich_sensible))
+					vecteur[3] = "1";                                
 
-				if (ligne.contains(".htaccess") || ligne.contains("/config.default.php"))
+				if (exist(ligne,rep_sensible))
 					vecteur[4] = "1";
 
-				if (ligne.contains("cmd") || ligne.contains("ls") || ligne.contains("ipconfig"))
+				if (exist(ligne,cmd))
 					vecteur[5] = "1";
 
-				if (ligne.contains("c99.php") || ligne.contains("AniShell.php") || ligne.contains("Backdoor.php"))
+				if (exist(ligne,backdoor))
 					vecteur[6] = "1";
 
 				vecteur[7] = String.valueOf(NbrCarSpec(ligne));
@@ -70,12 +85,14 @@ public class main {
 				String[] partsVerHttp = parts[1].split("HTTP/");
 				vecteur[9] = partsVerHttp[1].substring(0, 3);
 
-				writer.write(Arrays.toString(vecteur) + "\n");
+				writer.write(Arrays.toString(vecteur)+"\n");
 			}
 			writer.close();
 			reader.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+
 	}
+
 }
