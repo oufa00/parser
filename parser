@@ -1,0 +1,46 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package parser;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+/**
+ *
+ * @author dell
+ */
+public class Parser {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        String filename="C:\\Users\\dell\\Downloads\\Compressed\\access.log.2017-01-05\\Nouveau document texte.txt";
+try{
+        InputStream flux=new FileInputStream(filename); 
+InputStreamReader lecture=new InputStreamReader(flux);
+BufferedReader buff=new BufferedReader(lecture);
+String ligne;
+int v=0;
+String[] lig;
+int k=0;
+int[][] train=new int[5][10];
+
+while ((ligne=buff.readLine())!=null){
+k++;
+   if(ligne.contains("/robots.txt")){
+   System.out.println("ligne = "+k);
+   }
+   
+    }
+buff.close(); 
+    }catch(Exception e){
+      //  System.out.println(e);
+    }    }
+    
+}
