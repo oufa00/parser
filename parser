@@ -7,9 +7,16 @@ import java.util.Arrays;
 
 public class main {
 
-	final static String filename = "C:\\Users\\dell\\Desktop\\travaille\\test.txt";
-	final static String chemin = "C:\\Users\\dell\\Desktop\\travaille\\DataSet.txt";
-	public final static String[] caracter = { "!", "#", "$", "%", "^", "&", "*", "_", "-", "+", "=" };
+	final static String filename = "C:\\Users\\dell\\Desktop\\travail\\test.txt";
+	final static String chemin = "C:\\Users\\dell\\Desktop\\travail\\DataSet.txt";
+	final static String[] caracter = { "!", "#", "$", "%", "^", "&", "*", "_", "-", "+", "=" };
+	final static ArrayList<String> fich_sensible=new ArrayList<String>(Arrays.asList("wp-admin", "wp-content", "wp-login", "Administrator"));
+	final static ArrayList<String> cmd=new ArrayList<String>(Arrays.asList("ipconfig", "ls", "ping", "cd","mkdir","touch" ));
+	final static ArrayList<String> backdoor=new ArrayList<String>(Arrays.asList("c99.php", "Backdoor.PHP.Agent.php", "Ani-Shell.php","404.php"));
+	final static ArrayList<String> carcHex=new ArrayList<String>(Arrays.asList("%20", "%21", "%22", "%23","%24","%25","%26","%27" ));
+	final static ArrayList<String> rep_sensible=new ArrayList<String>(Arrays.asList( ".htaccess", "configuration.php", "config.default.php"));
+	final static ArrayList<String> presence_bot=new ArrayList<String>(Arrays.asList( "Googlebot", "AskJeeves", "Digger","Lycos","msnbot","Inktomi Slurp","bingbot"));
+	final static ArrayList<String> Scanner_bot=new ArrayList<String>(Arrays.asList( "Nikto", "Nessus", "acunetix"));
 
 	public static int NbrCarSpec(String ligne) {
 		int cpt = 0;
@@ -35,13 +42,7 @@ public class main {
 
 		BufferedReader reader = null;
 		String ligne;
-                ArrayList<String> fich_sensible=new ArrayList<String>(Arrays.asList("wp-admin", "wp-content", "wp-login", "Administrator"));
-                ArrayList<String> cmd=new ArrayList<String>(Arrays.asList("ipconfig", "ls", "ping", "cd","mkdir","touch" ));
-                ArrayList<String> backdoor=new ArrayList<String>(Arrays.asList("c99.php", "Backdoor.PHP.Agent.php", "Ani-Shell.php","404.php"));
-                ArrayList<String> carcHex=new ArrayList<String>(Arrays.asList("%20", "%21", "%22", "%23","%24","%25","%26","%27" ));
-                ArrayList<String> rep_sensible=new ArrayList<String>(Arrays.asList( ".htaccess", "configuration.php", "config.default.php"));
-                ArrayList<String> presence_bot=new ArrayList<String>(Arrays.asList( "Googlebot", "AskJeeves", "Digger","Lycos","msnbot","Inktomi Slurp","bingbot"));
-                ArrayList<String> Scanner_bot=new ArrayList<String>(Arrays.asList( "Nikto", "Nessus", "acunetix"));
+                
 
                 try {
 			reader = new BufferedReader(new FileReader(filename));
