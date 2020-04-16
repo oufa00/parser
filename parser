@@ -10,6 +10,8 @@ public class main {
 	final static String filename = "C:\\Users\\dell\\Desktop\\travail\\test.txt";
 	final static String chemin = "C:\\Users\\dell\\Desktop\\travail\\DataSet.txt";
 	
+	// 1- Stocker les attributs dans des listes
+	
 	final static ArrayList<String> caracter = new ArrayList<String>(
 			Arrays.asList("SP", "!", "", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "\"\"", "]", "^", "_", "`", "{", "|", "}", "~"));
 		
@@ -33,6 +35,8 @@ public class main {
 	
 	final static ArrayList<String> Scanner_bot = new ArrayList<String>(Arrays.asList("Nikto", "Nessus", "acunetix"));
 
+	
+	// 2- la fonction qui compte le nombre de caracteres
 	public static int NbrCar(String ligne,ArrayList<String> Caracteres) {
 		int cpt = 0;
 		for (int i = 0; i < Caracteres.size(); i++)
@@ -44,7 +48,8 @@ public class main {
 	public static int occurence(String ligne, String c) {
 		return ligne.length() - ligne.replace(c, "").length();
 	}
-
+	
+	// 3- la fonction qui permet de verifier l'existence de l'attribut dans la liste
 	public static boolean exist(String ligne, ArrayList<String> compare) {
 
 		for (int i = 0; i < compare.size(); i++) {
@@ -55,16 +60,20 @@ public class main {
 		return false;
 	}
 
+	// 4- le coeur de notre travail
 	public static void main(String[] args) {
 
 		BufferedReader reader = null;
 		String ligne;
 
 		try {
+			// 5- la creation du fichier
 			reader = new BufferedReader(new FileReader(filename));
 			File fichier = new File(chemin);
 			fichier.createNewFile();
 			FileWriter writer = new FileWriter(fichier);
+			
+			// 6- boucler jusqu'a la fin du Dataset pour creer la BD
 			while ((ligne = reader.readLine()) != null) {
 				String[] vecteur = new String[] { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
 
@@ -109,6 +118,7 @@ public class main {
 
 				writer.write(Arrays.toString(vecteur) + "\n");
 			}
+			
 			writer.close();
 			reader.close();
 		} catch (Exception e) {
